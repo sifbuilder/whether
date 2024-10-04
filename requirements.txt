@@ -1,0 +1,4 @@
+
+aiohttp
+jsonschema
+openai==1.51
