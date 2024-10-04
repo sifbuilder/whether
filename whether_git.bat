@@ -89,13 +89,22 @@ pause
 goto :EOF
 
 :UPDATE
-REM Step 1: Stage any changes for commit
+REM Step 1: Check if remote origin exists, add it if missing
+git remote get-url origin >nul 2>&1
+if errorlevel 1 (
+    echo Remote origin not found. Adding remote origin...
+    git remote add origin https://github.com/%GITHUB_USER%/%projectName%-expert.git
+) else (
+    echo Remote origin exists.
+)
+
+REM Step 2: Stage any changes for commit
 git add -A
 
-REM Step 2: Commit the changes with a message containing the date
+REM Step 3: Commit the changes with a message containing the date
 git commit -m "Update commit - %dt%"
 
-REM Step 3: Push the updates to the remote repository
+REM Step 4: Push the updates to the remote repository
 git push origin master
 
 REM Confirm successful update
