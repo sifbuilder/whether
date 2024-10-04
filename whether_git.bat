@@ -81,7 +81,7 @@ REM Step 5: Set the remote URL (without including the token)
 git remote add origin https://github.com/%GITHUB_USER%/%projectName%-expert.git
 
 REM Step 6: Push the local repository to GitHub
-git push -u origin main
+git push -u origin master
 
 REM Confirm successful project setup
 @echo Project setup and pushed to GitHub successfully!
@@ -96,7 +96,7 @@ REM Step 2: Commit the changes with a message containing the date
 git commit -m "Update commit - %dt%"
 
 REM Step 3: Push the updates to the remote repository
-git push origin main
+git push origin master
 
 REM Confirm successful update
 @echo Project updated and pushed to GitHub successfully!
