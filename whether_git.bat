@@ -74,21 +74,10 @@ git add whether.py README.md requirements.txt
 REM Step 3: Commit the staged files with a message containing the date
 git commit -m "Initial commit - %dt%"
 
-REM Step 4: Use GitHub's API to create a new repository using the token from the environment
-curl -u "%GITHUB_USER%:%GITHUB_TOKEN%" https://api.github.com/user/repos -d "{\"name\":\"%projectName%-expert\"}" > api_response.json
+REM Step 4: Set the remote URL (without including the token)
+git remote add origin https://github.com/%GITHUB_USER%/%projectName%.git
 
-REM Check if repository creation was successful
-findstr /C:"\"full_name\":" api_response.json >nul
-if %ERRORLEVEL% neq 0 (
-    echo ERROR: Failed to create repository on GitHub. Please check your GitHub token and permissions.
-    type api_response.json
-    exit /b
-)
-
-REM Step 5: Set the remote URL with token for authentication
-git remote add origin https://%GITHUB_USER%:%GITHUB_TOKEN%@github.com/%GITHUB_USER%/%projectName%-expert.git
-
-REM Step 6: Push the local repository to GitHub
+REM Step 5: Push the local repository to GitHub
 git push -u origin master
 if %ERRORLEVEL% neq 0 (
     echo ERROR: Failed to push to GitHub. Please check your credentials and repository access.
@@ -105,7 +94,7 @@ REM Step 1: Check if remote origin exists, add it if missing
 git remote get-url origin >nul 2>&1
 if errorlevel 1 (
     echo Remote origin not found. Adding remote origin...
-    git remote add origin https://%GITHUB_USER%:%GITHUB_TOKEN%@github.com/%GITHUB_USER%/%projectName%-expert.git
+    git remote add origin https://github.com/%GITHUB_USER%/%projectName%.git
 ) else (
     echo Remote origin exists.
 )
