@@ -1,4 +1,0 @@
-In Madrid, the average humidity level is 57%, and the average pluviometry (rainfall) is 35.25 mm per month
-    In Zaragoza, the average humidity level is 62%, and the average pluviometry is 26.83 mm per month
-    In Barcelona, the average humidity level is 72%, and the average pluviometry is 51 mm per month
-    In Sevilla, the average humidity level is 61%, and the average pluviometry is 44.5 mm per month
