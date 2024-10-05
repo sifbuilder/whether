@@ -50,6 +50,12 @@ if "%GITHUB_EMAIL%"=="" (
     exit /b
 )
 
+REM Configure Git to store credentials using the credential helper
+git config --global credential.helper store
+
+REM Set up the GitHub token as a credential
+echo https://%GITHUB_USER%:%GITHUB_TOKEN%@github.com > "%HOMEDRIVE%\e\c\git-credentials"
+
 REM Get the current date
 for /f "tokens=2 delims==" %%i in ('wmic os get localdatetime /value') do set dt=%%i
 set dt=%dt:~0,8%
@@ -74,7 +80,7 @@ git add whether.py README.md requirements.txt
 REM Step 3: Commit the staged files with a message containing the date
 git commit -m "Initial commit - %dt%"
 
-REM Step 4: Set the remote URL (without including the token)
+REM Step 4: Set the remote URL without embedding credentials
 git remote add origin https://github.com/%GITHUB_USER%/%projectName%.git
 
 REM Step 5: Push the local repository to GitHub
