@@ -50,12 +50,6 @@ if "%GITHUB_EMAIL%"=="" (
     exit /b
 )
 
-REM Configure Git to store credentials using the credential helper
-git config --global credential.helper store
-
-REM Set up the GitHub token as a credential
-echo https://%GITHUB_USER%:%GITHUB_TOKEN%@github.com > "%HOMEDRIVE%\e\c\git-credentials"
-
 REM Get the current date
 for /f "tokens=2 delims==" %%i in ('wmic os get localdatetime /value') do set dt=%%i
 set dt=%dt:~0,8%
@@ -81,9 +75,9 @@ REM Step 3: Commit the staged files with a message containing the date
 git commit -m "Initial commit - %dt%"
 
 REM Step 4: Set the remote URL without embedding credentials
-git remote add origin https://github.com/%GITHUB_USER%/%projectName%.git
+git remote add origin https://%GITHUB_USER%:%GITHUB_TOKEN%@github.com/%GITHUB_USER%/%projectName%.git
 
-REM Step 5: Push the local repository to GitHub
+REM Step 5: Push the local repository to GitHub using the stored token
 git push -u origin master
 if %ERRORLEVEL% neq 0 (
     echo ERROR: Failed to push to GitHub. Please check your credentials and repository access.
@@ -100,7 +94,7 @@ REM Step 1: Check if remote origin exists, add it if missing
 git remote get-url origin >nul 2>&1
 if errorlevel 1 (
     echo Remote origin not found. Adding remote origin...
-    git remote add origin https://github.com/%GITHUB_USER%/%projectName%.git
+    git remote add origin https://%GITHUB_USER%:%GITHUB_TOKEN%@github.com/%GITHUB_USER%/%projectName%.git
 ) else (
     echo Remote origin exists.
 )
@@ -111,7 +105,7 @@ git add -A
 REM Step 3: Commit the changes with a message containing the date
 git commit -m "Update commit - %dt%"
 
-REM Step 4: Push the updates to the remote repository
+REM Step 4: Push the updates to the remote repository using the stored token
 git push origin master
 if %ERRORLEVEL% neq 0 (
     echo ERROR: Failed to push to GitHub. Please check your credentials and repository access.
